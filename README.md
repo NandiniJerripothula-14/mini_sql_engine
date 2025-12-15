@@ -22,7 +22,7 @@ The project is designed for learning purposes and focuses on clarity, modularity
 
 - **SQL Parsing**
   - Supports `SELECT`, `FROM`, and optional `WHERE` clauses
-  - Simple, readable parsing logic
+  - Simple and readable parsing logic
 
 - **Query Execution**
   - **Projection**
@@ -36,8 +36,7 @@ The project is designed for learning purposes and focuses on clarity, modularity
     - `COUNT(column_name)`
 
 - **Interactive CLI**
-  - REPL-style interface
-  - Queriesunning queries interactively
+  - REPL-style interface for executing queries interactively
 
 - **Error Handling**
   - Clear, user-friendly error messages
@@ -116,7 +115,7 @@ Copy code
 
 ### Setup
 
-Clone the repository and move into the project directory:
+Clone the repository and navigate to the project directory:
 
 git clone https://github.com/NandiniJerripothula-14/mini_sql_engine
 cd mini_sql_engine
@@ -286,12 +285,11 @@ Copy code
 ## Error Handling
 
 The engine handles errors gracefully, including:
-
 - Invalid SQL syntax
 - Non-existent tables
 - Non-existent columns
 - Invalid WHERE conditions
-- Type mismatch during comparisons
+- Type mismatches during comparisons
 
 Example:
 Error: Column 'salary' does not exist
@@ -319,7 +317,7 @@ The application never crashes and always provides clear feedback.
 - ORDER BY and GROUP BY
 - LIMIT clause
 - JOIN operations
-- Support for INSERT and UPDATE
+- INSERT and UPDATE support
 
 ---
 
@@ -332,4 +330,4 @@ It emphasizes clarity, modular design, and correct execution of core SQL concept
 
 ## Author
 
-Developed as a hands-on learning project to understand SQL parsing and execution by building a simplified in-memory database engine using Python.
+Developed as a hands-on learning project to understand SQL parsing and execution by building a simplified i
