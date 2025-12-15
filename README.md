@@ -1,31 +1,31 @@
 # Mini In-Memory SQL Query Engine (Python)
 
-## Project Overview
+## 📌 Overview
 
-This project is a simplified, in-memory SQL query engine built using Python.  
-It demonstrates how basic SQL queries such as `SELECT`, `WHERE`, and `COUNT` are processed internally.
+This project implements a simplified, in-memory SQL query engine built entirely using Python.  
+It demonstrates how basic SQL queries are processed internally by a database system.
 
-The engine loads data from CSV files into memory, parses a limited subset of SQL, applies filtering and aggregation logic, and displays results through a command-line interface (CLI).  
-The project helps in understanding core data processing concepts like selection, filtering, projection, and aggregation.
+The engine loads data from CSV files into memory, parses a limited subset of SQL queries, applies filtering and aggregation logic, and displays results through a command-line interface (CLI).  
+This project is designed to build a foundational understanding of data processing concepts such as selection, filtering, projection, and aggregation.
 
 ---
 
-## Features
+## ✨ Key Features
 
 - Load CSV files into memory
-- Store table data as a list of dictionaries
-- Execute basic SQL queries
+- Store table data as a list of dictionaries (`list[dict]`)
+- Parse and execute basic SQL queries
 - Supported operations:
   - `SELECT *`
   - `SELECT column1, column2`
   - `WHERE` clause with a single condition
   - `COUNT(*)` and `COUNT(column)`
-- Interactive command-line interface (REPL)
+- Interactive CLI (REPL)
 - Clear and user-friendly error handling
 
 ---
 
-## Project Structure
+## 📁 Project Structure
 
 mini_sql_engine/
 ├── data/
@@ -37,18 +37,21 @@ mini_sql_engine/
 ├── README.md
 └── requirements.txt
 
+yaml
+Copy code
 
+---
 
-## Setup and Run Instructions
+## ⚙️ Setup and Execution
 
 ### Prerequisites
 - Python 3.8 or higher
 
-### How to Run
+### Steps to Run
 
 1. Clone the repository:
 ```bash
-git clone <your-github-repository-url>
+git clone https://github.com/NandiniJerripothula-14/mini_sql_engine
 Navigate to the project directory:
 
 bash
@@ -68,7 +71,7 @@ sql>
 Type SQL queries at the sql> prompt.
 To exit, type exit or quit.
 
-Supported SQL Grammar (Critical Section)
+🧠 Supported SQL Grammar (Critical Section)
 The engine supports only the following subset of SQL.
 
 SELECT
@@ -84,7 +87,7 @@ The table name must match a CSV file inside the data/ directory
 (example: employees → data/employees.csv)
 
 WHERE (Single Condition Only)
-Supported operators:
+Supported comparison operators:
 
 yaml
 Copy code
@@ -104,7 +107,7 @@ COUNT(*) → total number of rows
 
 COUNT(column) → number of non-null values in the column
 
-Example Queries and Output
+🧪 Example Queries and Output
 Query
 sql
 Copy code
@@ -147,29 +150,29 @@ Copy code
 COUNT
 -----
 2
-Sample CSV Files
+📊 Sample CSV Files
 employees.csv
-csv
+cs
 Copy code
 id,name,age,country
 1,Alice,30,USA
 2,Bob,25,India
 3,Charlie,35,USA
 students.csv
-csv
+c
 Copy code
 id,name,marks,grade
 1,Ravi,85,A
 2,Sita,72,B
 3,John,90,A
-Error Handling
-The engine gracefully handles common errors:
+🚨 Error Handling
+The engine gracefully handles common errors such as:
 
 Invalid SQL syntax
 
-Non-existent tables
+Querying a non-existent table
 
-Non-existent columns
+Selecting a non-existent column
 
 Type mismatches in WHERE conditions
 
@@ -178,16 +181,16 @@ Example:
 javascript
 Copy code
 Error: Column 'salary' does not exist
-The application does not crash and always provides clear error messages.
+The application never crashes and always provides clear, informative messages.
 
-Design and Implementation Details
+🏗️ Design and Implementation
 CSV files are loaded using Python’s csv.DictReader
 
-Tables are stored as list[dict]
+Tables are stored in memory as list[dict]
 
-SQL parsing uses simple string processing
+SQL parsing is implemented using simple string operations
 
-Execution order:
+Query execution flow:
 
 Load data (FROM)
 
@@ -197,15 +200,15 @@ Apply aggregation (COUNT)
 
 Apply projection (SELECT)
 
-Modular design:
+Modular design ensures clean separation of concerns:
 
 parser.py → SQL parsing
 
 engine.py → Query execution
 
-cli.py → CLI interface
+cli.py → User interaction
 
-Limitations
+⚠️ Limitations
 Only SELECT queries are supported
 
 Only one WHERE condition is allowed
@@ -214,15 +217,15 @@ Only COUNT() aggregation is implemented
 
 No support for:
 
-JOIN
+JOIN operations
 
-ORDER BY
+ORDER BY clause
 
-INSERT / UPDATE / DELETE
+INSERT / UPDATE / DELETE statements
 
-Conclusion
-This project provides a practical demonstration of how a basic SQL query engine works internally using Python.
-It fulfills all the required objectives by correctly implementing data loading, parsing, filtering, aggregation, and user interaction.
+✅ Conclusion
+This project provides a clear and practical demonstration of how a basic SQL query engine works internally using Python.
+It fulfills all specified requirements by implementing data loading, parsing, filtering, aggregation, and CLI interaction in a clean and modular way.
 
-Author
+👩‍💻 Author
 Developed as a hands-on learning project to build a simplified in-memory SQL query engine using Python.
