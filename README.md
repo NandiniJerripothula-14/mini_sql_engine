@@ -1,27 +1,94 @@
 # Mini In-Memory SQL Query Engine (Python)
 
-## Project Overview
-
-This project implements a simplified, in-memory SQL query engine built using Python.  
-It demonstrates how basic SQL queries such as `SELECT`, `WHERE`, and `COUNT` are processed internally by a database system.
-
-The engine loads data from CSV files into memory, parses a limited subset of SQL queries, applies filtering and aggregation logic, and displays results through a command-line interface (CLI).  
-The project focuses on understanding core data processing concepts such as selection, filtering, projection, and aggregation.
+A simplified, in-memory SQL query engine built from scratch using Python.  
+This project demonstrates fundamental database concepts including data loading, SQL parsing, query execution, and command-line interface (CLI) design.
 
 ---
 
-## Key Features
+## Overview
 
-- Load CSV files into memory
-- Store table data as a list of dictionaries (`list[dict]`)
-- Parse and execute basic SQL queries
-- Supported operations:
-  - `SELECT *`
-  - `SELECT column1, column2`
-  - `WHERE` clause with a single condition
-  - `COUNT(*)` and `COUNT(column)`
-- Interactive command-line interface (REPL)
-- Clear and user-friendly error handling
+This engine loads CSV files into memory and allows users to execute a limited subset of SQL queries interactively.  
+It helps demystify how databases process queries internally by clearly separating parsing, filtering, aggregation, and projection logic.
+
+The project is designed for learning purposes and focuses on clarity, modularity, and correctness rather than performance or full SQL compliance.
+
+---
+
+## Features
+
+- **Data Loading**
+  - Load CSV files from the `data/` directory
+  - Store data as a list of dictionaries (`list[dict]`)
+
+- **SQL Parsing**
+  - Supports `SELECT`, `FROM`, and optional `WHERE` clauses
+  - Simple, readable parsing logic
+
+- **Query Execution**
+  - **Projection**
+    - `SELECT *`
+    - `SELECT column1, column2`
+  - **Filtering**
+    - Single-condition `WHERE` clause
+    - Operators: `=`, `!=`, `>`, `<`, `>=`, `<=`
+  - **Aggregation**
+    - `COUNT(*)`
+    - `COUNT(column_name)`
+
+- **Interactive CLI**
+  - REPL-style interface
+  - Queriesunning queries interactively
+
+- **Error Handling**
+  - Clear, user-friendly error messages
+  - Graceful handling of invalid queries
+
+- **Formatted Output**
+  - Results displayed in tabular format
+
+---
+
+## Supported SQL Grammar
+
+SELECT <select_list>
+FROM <table_name>
+[WHERE <condition>]
+
+shell
+Copy code
+
+### Select List
+column1, column2
+COUNT(*)
+COUNT(column_name)
+
+shell
+Copy code
+
+### Condition
+<column_name> <operator> <value>
+
+shell
+Copy code
+
+### Operators
+= != > < >= <=
+
+shell
+Copy code
+
+### Values
+Numbers (integer or decimal)
+Strings enclosed in single quotes
+
+makefile
+Copy code
+
+Example:
+SELECT name, age FROM employees WHERE age > 30;
+
+yaml
+Copy code
 
 ---
 
@@ -31,37 +98,41 @@ mini_sql_engine/
 ├── data/
 │ ├── employees.csv
 │ ├── students.csv
-├── parser.py
-├── engine.py
-├── cli.py
-├── README.md
-└── requirements.txt
+├── parser.py # SQL parsing logic
+├── engine.py # Query execution engine
+├── cli.py # CLI / REPL interface
+├── requirements.txt
+└── README.md
 
 yaml
 Copy code
 
 ---
 
-## Setup and Run Instructions
+## Installation
 
 ### Prerequisites
 - Python 3.8 or higher
 
-### Steps to Run
+### Setup
 
-1. Clone the repository:
+Clone the repository and move into the project directory:
+
 git clone https://github.com/NandiniJerripothula-14/mini_sql_engine
-
-css
-Copy code
-
-2. Navigate to the project directory:
 cd mini_sql_engine
 
-markdown
+yaml
 Copy code
 
-3. Run the CLI application:
+No external dependencies are required.
+
+---
+
+## Usage
+
+### Starting the Engine
+
+Run:
 python cli.py
 
 yaml
@@ -74,74 +145,63 @@ sql>
 yaml
 Copy code
 
-Type SQL queries at the `sql>` prompt.  
-To exit the application, type `exit` or `quit`.
-
 ---
 
-## Supported SQL Grammar (Critical Section)
+## Running Queries
 
-The engine supports **only the following subset of SQL**.
+### Select All Columns
+sql> SELECT * FROM employees;
 
-### SELECT
-SELECT *
-SELECT column1, column2
+css
+Copy code
+
+### Select Specific Columns
+sql> SELECT name, age FROM employees;
 
 shell
 Copy code
 
-### FROM
-FROM table_name
-
-less
-Copy code
-- The table name must match a CSV file inside the `data/` directory  
-  (example: `employees` → `data/employees.csv`)
-
-### WHERE (Single Condition Only)
-
-Supported comparison operators:
-= != > < >= <=
-
-makefile
-Copy code
-
-Examples:
-SELECT * FROM employees WHERE age > 30;
-SELECT name FROM employees WHERE country = 'USA';
+### Filtering with WHERE
+sql> SELECT name, age FROM employees WHERE age > 30;
 
 shell
 Copy code
 
-### Aggregation: COUNT
-SELECT COUNT(*) FROM table_name;
-SELECT COUNT(column_name) FROM table_name;
+### Using Comparison Operators
+sql> SELECT * FROM employees WHERE age >= 25;
+sql> SELECT * FROM employees WHERE country != 'India';
+
+shell
+Copy code
+
+### Count Rows
+sql> SELECT COUNT(*) FROM employees;
+
+sql
+Copy code
+
+### Count Non-null Values in a Column
+sql> SELECT COUNT(name) FROM employees;
+
+graphql
+Copy code
+
+### Combined Filtering and Aggregation
+sql> SELECT COUNT(*) FROM employees WHERE country = 'USA';
 
 yaml
 Copy code
 
-- `COUNT(*)` → total number of rows  
-- `COUNT(column)` → number of non-null values in the column  
-
 ---
 
-## Example Queries and Output
+## Example Output
 
-Example queries:
-SELECT * FROM employees;
-SELECT name, age FROM employees WHERE age > 30;
-SELECT COUNT(*) FROM employees;
-SELECT COUNT(name) FROM employees WHERE country='USA';
-
-lua
-Copy code
-
-Example output:
 id name age country
 1 Alice 30 USA
 2 Bob 25 India
 3 Charlie 35 USA
 
+Copy code
 COUNT
 3
 
@@ -172,60 +232,104 @@ Copy code
 
 ---
 
+## Architecture & Implementation
+
+### Query Execution Pipeline
+
+SQL Query
+↓
+[Parsing] → parser.py
+↓
+Parsed Query Dictionary
+↓
+[Filtering] → engine.py (WHERE)
+↓
+[Aggregation] → COUNT (if present)
+↓
+[Projection] → SELECT columns
+↓
+Formatted Output
+
+yaml
+Copy code
+
+---
+
+## Data Structures
+
+### In-Memory Table
+[
+{'id': '1', 'name': 'Alice', 'age': '30', 'country': 'USA'},
+{'id': '2', 'name': 'Bob', 'age': '25', 'country': 'India'}
+]
+
+shell
+Copy code
+
+### Parsed Query Representation
+{
+'select_cols': ['name', 'age'],
+'from_table': 'employees',
+'where_clause': {
+'column': 'age',
+'operator': '>',
+'value': 30
+},
+'aggregate': None
+}
+
+yaml
+Copy code
+
+---
+
 ## Error Handling
 
-The engine gracefully handles:
-- Invalid SQL syntax
-- Querying a non-existent table
-- Selecting a non-existent column
-- Type mismatches in `WHERE` conditions
+The engine handles errors gracefully, including:
 
-Example error message:
+- Invalid SQL syntax
+- Non-existent tables
+- Non-existent columns
+- Invalid WHERE conditions
+- Type mismatch during comparisons
+
+Example:
 Error: Column 'salary' does not exist
 
 yaml
 Copy code
 
-The application does not crash and always provides clear, informative messages.
-
----
-
-## Design and Implementation
-
-- CSV files are loaded using Python’s built-in `csv.DictReader`
-- Tables are stored in memory as `list[dict]`
-- SQL parsing is implemented using simple string processing
-- Query execution flow:
-  1. Load data (FROM)
-  2. Filter rows (WHERE)
-  3. Apply aggregation (COUNT)
-  4. Apply projection (SELECT)
-- Modular design ensures separation of concerns:
-  - `parser.py` → SQL parsing
-  - `engine.py` → Query execution
-  - `cli.py` → User interaction
+The application never crashes and always provides clear feedback.
 
 ---
 
 ## Limitations
 
-- Only `SELECT` queries are supported
-- Only one `WHERE` condition is allowed
-- Only `COUNT()` aggregation is implemented
-- No support for:
-  - JOIN
-  - ORDER BY
-  - INSERT / UPDATE / DELETE
+- Only one WHERE condition supported
+- Only COUNT aggregation is implemented
+- No JOIN, GROUP BY, ORDER BY, or LIMIT
+- No INSERT, UPDATE, or DELETE operations
+
+---
+
+## Possible Enhancements
+
+- Multiple WHERE conditions (AND / OR)
+- Additional aggregates (SUM, AVG, MIN, MAX)
+- ORDER BY and GROUP BY
+- LIMIT clause
+- JOIN operations
+- Support for INSERT and UPDATE
 
 ---
 
 ## Conclusion
 
-This project provides a clear and practical demonstration of how a basic SQL query engine works internally using Python.  
-It fulfills all submission and evaluation requirements by implementing data loading, parsing, filtering, aggregation, and CLI interaction in a clean and modular way.
+This project provides a clean and practical demonstration of how a basic SQL query engine works internally.  
+It emphasizes clarity, modular design, and correct execution of core SQL concepts using Python.
 
 ---
 
 ## Author
 
-Developed as a hands-on learning project to build a simplified in-memory SQL query engine using Python.
+Developed as a hands-on learning project to understand SQL parsing and execution by building a simplified in-memory database engine using Python.
